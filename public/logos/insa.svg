@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="insaTitle">
+  <title id="insaTitle">INSA</title>
+  <path d="M60 16 L100 34 V70 C100 90 82 104 60 110 C38 104 20 90 20 70 V34 Z" fill="none" stroke="#c7a962" stroke-width="1.75"/>
+  <rect x="48" y="48" width="24" height="28" rx="3" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+  <path d="M54 48 V42 A6 6 0 0 1 66 42 V48" fill="none" stroke="#f7f4ec" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="60" cy="62" r="2.5" fill="#c7a962"/>
+</svg>

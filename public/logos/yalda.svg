@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="yaldaTitle">
+  <title id="yaldaTitle">YALDA</title>
+  <rect x="18" y="18" width="84" height="84" fill="none" stroke="#c7a962" stroke-width="1.5"/>
+  <path d="M40 38 L60 68 L80 38" fill="none" stroke="#f7f4ec" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M60 68 V90" fill="none" stroke="#f7f4ec" stroke-width="4" stroke-linecap="square"/>
+</svg>

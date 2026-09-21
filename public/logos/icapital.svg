@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="icapTitle">
+  <title id="icapTitle">i-Capital Africa Institute</title>
+  <circle cx="42" cy="32" r="5" fill="#c7a962"/>
+  <rect x="39" y="44" width="6" height="36" fill="#f7f4ec"/>
+  <path d="M62 44 H86 V80 H62 Z" fill="none" stroke="#f7f4ec" stroke-width="3"/>
+  <path d="M62 62 H86" stroke="#f7f4ec" stroke-width="3"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="icoTitle">
+  <title id="icoTitle">ICOYACA Ethiopia</title>
+  <circle cx="60" cy="52" r="28" fill="none" stroke="#c7a962" stroke-width="1.75"/>
+  <circle cx="60" cy="52" r="4" fill="#c7a962"/>
+  <g fill="#f7f4ec">
+    <circle cx="60" cy="24" r="2.4"/>
+    <circle cx="84" cy="38" r="2.4"/>
+    <circle cx="84" cy="66" r="2.4"/>
+    <circle cx="60" cy="80" r="2.4"/>
+    <circle cx="36" cy="66" r="2.4"/>
+    <circle cx="36" cy="38" r="2.4"/>
+  </g>
+</svg>

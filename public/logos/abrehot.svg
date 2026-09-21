@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="abrehotTitle">
+  <title id="abrehotTitle">Abrehot Library</title>
+  <path d="M60 22 V44" stroke="#c7a962" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="60" cy="18" r="4" fill="#c7a962"/>
+  <path d="M36 52 C36 52 48 46 60 52 C72 46 84 52 84 52 V86 C72 80 60 86 60 86 C60 86 48 80 36 86 Z" fill="none" stroke="#f7f4ec" stroke-width="2"/>
+  <path d="M60 52 V86" stroke="#c7a962" stroke-width="1.5"/>
+</svg>

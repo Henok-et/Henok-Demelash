@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 118" role="img" aria-labelledby="ureportTitle">
+  <title id="ureportTitle">U-Report</title>
+  <defs>
+    <clipPath id="uLeft"><rect width="50" height="118"/></clipPath>
+    <clipPath id="uRight"><rect x="50" width="50" height="118"/></clipPath>
+  </defs>
+  <path clip-path="url(#uLeft)" fill="#00adef" d="M14 8 H36 V70 A14 14 0 0 0 64 70 V8 H86 V70 A36 36 0 0 1 14 70 Z"/>
+  <path clip-path="url(#uRight)" fill="#f4f4f5" d="M14 8 H36 V70 A14 14 0 0 0 64 70 V8 H86 V70 A36 36 0 0 1 14 70 Z"/>
+</svg>
