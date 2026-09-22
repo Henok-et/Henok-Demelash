@@ -347,39 +347,60 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  if (!isExperiencePage) document.querySelectorAll('.gs-exp-row').forEach((row) => {
+  document.querySelectorAll('.gs-exp-row').forEach((row) => {
     const imgWrap = row.querySelector('.exp-img-wrap')
     const textEls = row.querySelectorAll('.exp-period, .exp-role, .exp-org, .exp-desc, .exp-tag')
+    const isClosingRow = row.classList.contains('exp-closing')
 
     if (imgWrap) {
-      gsap.fromTo(imgWrap,
-        { scale: 0.96 },
-        {
-          scale: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: row,
-            start: 'clamp(top 90%)',
-            end: 'center center',
-            scrub: true,
-          },
-        }
-      )
+      if (isClosingRow) {
+        gsap.fromTo(imgWrap,
+          { y: 90, opacity: 0, scale: 0.94 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: row,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+              once: true,
+            },
+          }
+        )
+      } else {
+        gsap.fromTo(imgWrap,
+          { scale: 0.96 },
+          {
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: row,
+              start: 'clamp(top 90%)',
+              end: 'center center',
+              scrub: true,
+            },
+          }
+        )
+      }
     }
 
     if (textEls.length) {
       gsap.fromTo(textEls,
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: isClosingRow ? 90 : 24 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.7,
+          duration: isClosingRow ? 1 : 0.7,
           stagger: 0.08,
-          ease: 'power2.out',
+          ease: isClosingRow ? 'power3.out' : 'power2.out',
           scrollTrigger: {
             trigger: row,
-            start: 'clamp(top 80%)',
+            start: isClosingRow ? 'top 88%' : 'clamp(top 72%)',
             toggleActions: 'play none none none',
+            once: true,
           },
         }
       )
@@ -672,19 +693,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerRevealContainer = document.querySelector('.footer-reveal-container');
   const finalSection = document.querySelector('.final-section');
   if (footerRevealContainer && finalSection && !reduceMotion) {
-    gsap.fromTo(finalSection, 
-      { yPercent: -50 }, // Footer starts "pulled up" under the previous section
-      {
-        yPercent: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: footerRevealContainer,
-          start: "top bottom", // Starts when the top of the container enters the bottom of the viewport
-          end: "bottom bottom", // Ends when the bottom of the container reaches the bottom
+    const isJourneyFooter = finalSection.classList.contains('final-section--journey');
+    if (!isJourneyFooter) {
+      gsap.fromTo(finalSection,
+        { yPercent: -50 },
+        {
+          yPercent: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: footerRevealContainer,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: 0.65,
+            invalidateOnRefresh: true,
+          }
+        }
+      );
+    }
+
+    const footerCopy = finalSection.querySelectorAll('.footer-copy');
+    if (footerCopy.length) {
+      gsap.fromTo(footerCopy,
+        { y: 54, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: 'none',
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: footerRevealContainer,
+            start: 'top 92%',
+            end: 'top 42%',
             scrub: 0.8,
             invalidateOnRefresh: true,
+          },
         }
-      }
-    );
+      );
+    }
   }
 })
