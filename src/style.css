@@ -906,10 +906,10 @@ section[id],
     align-items: center;
   }
   /* Alternate image position every other row */
-  .exp-row:nth-child(even) .exp-img-col {
+  .exp-row:nth-child(odd) .exp-img-col {
     order: 2;
   }
-  .exp-row:nth-child(even) .exp-text-col {
+  .exp-row:nth-child(odd) .exp-text-col {
     order: 1;
   }
 }
