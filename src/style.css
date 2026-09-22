@@ -1345,8 +1345,10 @@ section[id],
   z-index: 1000;
   display: none;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   opacity: 0;
   visibility: hidden;
 }
@@ -1357,14 +1359,15 @@ section[id],
 
 .contact-overlay-inner {
   width: 100%;
-  max-width: 600px;
-  padding: 2rem;
+  max-width: 760px;
+  margin: auto;
+  padding: clamp(4rem, 10vh, 7rem) 2rem 3rem;
   position: relative;
 }
 
 .close-btn {
   position: absolute;
-  top: -3rem;
+  top: 1rem;
   right: 1rem;
   background: none;
   border: none;
@@ -1381,25 +1384,64 @@ section[id],
 
 @media (min-width: 768px) {
   .close-btn {
-    top: -2rem;
+    top: 1rem;
     right: 0;
   }
 }
 
 .contact-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  max-width: 12ch;
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
   font-weight: 700;
-  margin-bottom: 2rem;
+  line-height: 0.94;
+  margin: 0 0 1.75rem;
   color: var(--color-light);
-  text-align: center;
+  text-align: left;
 }
 
-.contact-form {
+.contact-intro {
+  margin: 0 0 2rem;
+  color: var(--color-muted-alt);
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+}
+
+.conversation-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 0;
+  border-bottom: 1px solid var(--color-accent);
+  background: transparent;
+  cursor: pointer;
+  margin-bottom: 4.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-light);
+  padding-bottom: 0.35rem;
+  transition: color 0.3s ease, gap 0.3s ease, border-color 0.3s ease;
+}
+
+.conversation-link:hover,
+.conversation-link:focus-visible {
+  color: var(--color-accent-soft);
+  gap: 1rem;
+  border-bottom-color: var(--color-accent-soft);
+}
+
+.conversation-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.35rem;
   width: 100%;
-  margin-bottom: 3rem;
+  margin: -1.5rem 0 3.5rem;
+}
+
+.conversation-form[hidden] {
+  display: none;
 }
 
 .form-group {
@@ -1409,29 +1451,31 @@ section[id],
 }
 
 .form-group label {
+  color: var(--color-muted);
   font-family: var(--font-heading);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-muted);
 }
 
 .form-group input,
 .form-group textarea {
-  background: transparent;
-  border: none;
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
   border-bottom: 1px solid var(--color-hairline);
-  padding: 0.75rem 0;
+  outline: none;
+  background: transparent;
   color: var(--color-light);
   font-family: var(--font-body);
   font-size: 1rem;
+  resize: vertical;
   transition: border-color 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-  outline: none;
   border-bottom-color: var(--color-accent);
 }
 
@@ -1440,29 +1484,31 @@ section[id],
   color: var(--color-field-mid);
 }
 
-.submit-btn {
-  background: var(--color-accent);
-  color: var(--color-field-deep);
-  border: none;
-  padding: 1rem 2rem;
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.conversation-submit {
+  align-self: flex-start;
+  padding: 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-accent);
+  background: transparent;
+  color: var(--color-light);
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.submit-btn:hover {
-  background-color: var(--color-accent-soft);
-  transform: translateY(-2px);
+.conversation-submit:hover,
+.conversation-submit:focus-visible {
+  color: var(--color-accent-soft);
+  border-bottom-color: var(--color-accent-soft);
 }
 
 .social-links {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 2rem;
 }
 
@@ -1481,6 +1527,106 @@ section[id],
 .social-links a:hover {
   color: var(--color-accent);
   border-bottom-color: var(--color-accent);
+}
+
+@media (min-width: 641px) {
+  .contact-overlay-inner {
+    padding-top: clamp(3rem, 6vh, 4.5rem);
+    padding-bottom: 2rem;
+  }
+
+  .contact-title {
+    max-width: 18ch;
+    font-size: clamp(2.25rem, 4vw, 3.75rem);
+    margin-bottom: 1rem;
+  }
+
+  .contact-intro {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .conversation-link {
+    margin-bottom: 2.25rem;
+  }
+
+  .conversation-form {
+    gap: 0.8rem;
+    margin: -0.5rem 0 2rem;
+  }
+
+  .form-group {
+    gap: 0.25rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.45rem 0;
+  }
+
+  .form-group textarea {
+    min-height: 3.5rem;
+    max-height: 3.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-overlay-inner {
+    padding: 2.5rem 1.25rem 1rem;
+  }
+
+  .contact-title {
+    font-size: clamp(1.55rem, 7.5vw, 2.35rem);
+    line-height: 0.92;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-intro {
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .conversation-link {
+    margin-bottom: 1.25rem;
+    font-size: 0.68rem;
+  }
+
+  .conversation-form {
+    gap: 0.45rem;
+    margin: -0.25rem 0 0.9rem;
+  }
+
+  .form-group {
+    gap: 0.1rem;
+  }
+
+  .form-group label {
+    font-size: 0.55rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.25rem 0;
+    font-size: 0.75rem;
+  }
+
+  .form-group textarea {
+    min-height: 2.75rem;
+    max-height: 2.75rem;
+  }
+
+  .conversation-submit {
+    padding: 0.3rem 0;
+    font-size: 0.65rem;
+  }
+
+  .social-links {
+    gap: 1rem;
+  }
+
+  .social-links a {
+    font-size: 0.65rem;
+  }
 }
 
 /* --- INTERACTIVE SLIDER (SELECTED WORK) --- */

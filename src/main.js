@@ -433,16 +433,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-      contactForm.addEventListener('submit', (e) => {
-        // Optional: you can add AJAX submission here instead of redirecting
-        const btn = contactForm.querySelector('.submit-btn');
-        if(btn) {
-          btn.textContent = 'Sending...';
-        }
+    const conversationTrigger = document.querySelector('.conversation-link');
+    const conversationForm = document.querySelector('.conversation-form');
+    if (conversationTrigger && conversationForm) {
+      conversationTrigger.addEventListener('click', () => {
+        conversationForm.hidden = false;
+        conversationTrigger.setAttribute('aria-expanded', 'true');
+        conversationTrigger.style.display = 'none';
+        conversationForm.querySelector('input:not([type="hidden"])')?.focus();
+      });
+
+      conversationForm.addEventListener('submit', () => {
+        const submitButton = conversationForm.querySelector('.conversation-submit');
+        if (submitButton) submitButton.textContent = 'Sending...';
       });
     }
+
   }
 
   // --- INTERACTIVE SLIDER LOGIC ---

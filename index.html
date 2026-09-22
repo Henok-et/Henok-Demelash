@@ -381,9 +381,12 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
         <div class="contact-content">
-          <h2 class="contact-title gs-contact-elem">Get in Touch</h2>
-          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form gs-contact-elem">
-            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+          <h2 class="contact-title gs-contact-elem">OPEN TO IDEAS, PROJECTS &amp; COLLABORATION.</h2>
+          <p class="contact-intro gs-contact-elem">Have something worth discussing?</p>
+          <button type="button" class="conversation-link gs-contact-elem" aria-expanded="false" aria-controls="conversation-form">Start a conversation <span aria-hidden="true">→</span></button>
+
+          <form id="conversation-form" action="https://api.web3forms.com/submit" method="POST" class="conversation-form" hidden>
+            <input type="hidden" name="access_key" value="%VITE_WEB3FORMS_ACCESS_KEY%">
             <div class="form-group">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" required placeholder="Your Name">
@@ -396,9 +399,9 @@
               <label for="message">Message</label>
               <textarea id="message" name="message" rows="4" required placeholder="How can I help you?"></textarea>
             </div>
-            <button type="submit" class="submit-btn">Send Message</button>
+            <button type="submit" class="conversation-submit">Send message <span aria-hidden="true">→</span></button>
           </form>
-          
+
           <div class="social-links gs-contact-elem">
             <a href="https://www.linkedin.com/in/henok-kinde-demelash-648b9021b/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <a href="https://www.instagram.com/henokkindedemelash/" target="_blank" rel="noopener noreferrer">Instagram</a>
