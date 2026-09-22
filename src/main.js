@@ -12,11 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const preloader = document.querySelector('.preloader');
   const preloaderText = document.querySelector('.preloader-text');
+  const hasLoadedBefore = sessionStorage.getItem('siteLoaded');
   
-  if (preloader && preloaderText && gsap) {
+  if (preloader && preloaderText && gsap && !hasLoadedBefore) {
+    // Mark session as loaded immediately so it never replays
+    sessionStorage.setItem('siteLoaded', 'true');
+
     const greetings = ["Hello", "Bonjour", "Hola", "Ciao", "Olá", "Hallo", "Привет", "こんにちは", "你好", "ሰላም"];
     let tl = gsap.timeline();
-    
+
     document.body.style.overflow = 'hidden';
 
     greetings.forEach((greeting, index) => {
@@ -25,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         onStart: () => preloaderText.textContent = greeting,
       }, index * 0.18);
     });
-    
+
     tl.to(preloader, {
       yPercent: -100,
       duration: 0.8,
@@ -33,9 +37,38 @@ document.addEventListener('DOMContentLoaded', () => {
       delay: 0.2,
       onComplete: () => {
         preloader.style.display = 'none';
-        document.body.style.overflow = '';
+
+        const newsModal = document.querySelector('.news-modal');
+        const newsBox = document.querySelector('.news-modal-box');
+
+        if (newsModal && newsBox) {
+          gsap.set(newsModal, { visibility: 'visible' });
+
+          let newsTl = gsap.timeline();
+          newsTl.to(newsModal, { opacity: 1, duration: 0.5, ease: "power2.out" })
+                .fromTo(newsBox, { scale: 0.9, y: 30, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.7, ease: "back.out(1.5)" }, "-=0.2");
+
+          const closeBtn = document.querySelector('.news-close');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+              gsap.to(newsBox, { scale: 0.9, y: 20, opacity: 0, duration: 0.4, ease: "power2.in" });
+              gsap.to(newsModal, { opacity: 0, duration: 0.4, delay: 0.2, onComplete: () => {
+                newsModal.style.display = 'none';
+                document.body.style.overflow = '';
+              }});
+            });
+          }
+        } else {
+          document.body.style.overflow = '';
+        }
       }
     });
+  } else if (preloader) {
+    // Already loaded before in this session — skip everything instantly
+    preloader.style.display = 'none';
+    const newsModal = document.querySelector('.news-modal');
+    if (newsModal) newsModal.style.display = 'none';
+    document.body.style.overflow = '';
   }
 
   let lenis = null
@@ -93,14 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (reduceMotion || !gsap || !ScrollTrigger) return
 
-  document.querySelectorAll('.gs-fade-up').forEach((el) => {
+  const isExperiencePage = Boolean(document.querySelector('.page-header-spacing'))
+
+  document.querySelectorAll(isExperiencePage ? '.gs-fade-up:not(.exp-heading)' : '.gs-fade-up').forEach((el) => {
     gsap.fromTo(el,
-      { opacity: 0, y: 50 },
+      { opacity: 0, y: 42, clipPath: 'inset(0 0 100% 0)' },
       {
         opacity: 1,
         y: 0,
+        clipPath: 'inset(0 0 0% 0)',
         duration: 1,
-        ease: 'power3.out',
+        ease: 'power4.out',
         scrollTrigger: {
           trigger: el,
           start: 'clamp(top 90%)',
@@ -125,42 +161,53 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroFigure.length) {
     gsap.from(heroFigure, {
       opacity: 0,
+      y: 18,
+      clipPath: 'inset(0 0 12% 0)',
       duration: 1.25,
       stagger: 0.08,
-      ease: 'power3.out',
+      ease: 'power4.out',
       delay: 0.1,
     })
   }
 
   const capStage = document.querySelector('.cap-stage')
+  const capPanelsContainer = document.querySelector('.cap-panels')
   const capPanels = document.querySelectorAll('.cap-panel')
   const capReel = document.querySelector('.cap-reel')
   const setCapIndex = (index) => {
     capPanels.forEach((panel, i) => {
       panel.classList.toggle('is-active', i === index)
     })
-    if (capReel && !reduceMotion && gsap) {
-      gsap.to(capReel, {
-        yPercent: -(index * (100 / capPanels.length)),
-        duration: 0.85,
-        ease: 'power3.inOut',
-        overwrite: 'auto',
-      })
-    } else if (capReel) {
-      capReel.style.transform = `translateY(-${index * (100 / capPanels.length)}%)`
-    }
   }
 
   if (capStage && capPanels.length) {
     if (!reduceMotion && gsap && ScrollTrigger && window.matchMedia('(min-width: 960px)').matches) {
+
+      // Continuous scrub for the numbers reel
+      if (capReel) {
+        gsap.to(capReel, {
+          yPercent: -((capPanels.length - 1) * (100 / capPanels.length)),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: capPanelsContainer,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.1
+          }
+        })
+      }
+
+      // Discrete triggers for text panel active states + auto-scroll
       capPanels.forEach((panel, index) => {
+        // Active state toggling
         ScrollTrigger.create({
           trigger: panel,
-          start: 'top 58%',
-          end: 'bottom 42%',
+          start: 'top 50%',
+          end: 'bottom 50%',
           onEnter: () => setCapIndex(index),
           onEnterBack: () => setCapIndex(index),
-        })
+        });
+
       })
     } else {
       capPanels.forEach((panel) => panel.classList.add('is-active'))
@@ -227,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const timelineViewport = document.querySelector('.timeline-viewport')
   if (timelineViewport && !reduceMotion) {
     const rows = document.querySelectorAll('.marquee-row')
-    
+
     gsap.fromTo(rows, 
       { opacity: 0, y: 30 },
       {
@@ -246,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rows.forEach((row, index) => {
       const isTop = index === 0;
-      
+
       // Clone items to ensure enough content for scrolling
       const items = Array.from(row.querySelectorAll('.timeline-item'));
       for (let i = 0; i < 2; i++) {
@@ -300,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  document.querySelectorAll('.gs-exp-row').forEach((row) => {
+  if (!isExperiencePage) document.querySelectorAll('.gs-exp-row').forEach((row) => {
     const imgWrap = row.querySelector('.exp-img-wrap')
     const textEls = row.querySelectorAll('.exp-period, .exp-role, .exp-org, .exp-desc, .exp-tag')
 
@@ -462,37 +509,157 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- EVENTS & SPEAKING SECTION (Vertical Parallax) ---
-  const eventsSection = document.querySelector('.events-section');
-  
-  if (eventsSection && !reduceMotion) {
-    const floatingImgs = eventsSection.querySelectorAll('.floating-img');
+  // ─── EVENTS: STICKY CANVAS SCROLL ───────────────────────────────────────────
+  const eventsScroller = document.getElementById('events-scroller');
+  const editorialGallery = document.getElementById('editorial-gallery');
 
-    // Each floating image drifts upward at a different speed as you scroll
-    floatingImgs.forEach((img, i) => {
-      const speed = 30 + (i % 3) * 25; // Vary parallax speed per image
-      const rotation = (i % 2 === 0) ? 2 : -2;
+  if (eventsScroller && editorialGallery) {
 
-      gsap.fromTo(img,
-        { 
-          yPercent: speed, 
-          opacity: 0,
-          rotation: rotation * 2 
-        },
-        {
-          yPercent: -speed * 0.5,
-          opacity: 1,
-          rotation: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: img.closest('.events-group'),
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        }
-      );
+    // Art-directed compositions — each is one "viewport scene"
+    // type: 'duo' | 'trio' | 'quad'
+    // Each item: { src, color, shape: 'landscape'|'portrait'|'square', offset: 'top'|'mid'|'bot' }
+    const compositions = [
+
+      // ── COMPOSITION 1: DUO — big landscape left, small portrait right ──
+      {
+        type: 'duo',
+        items: [
+          { src: '/assets/events/1.png', color: 'field-navy',    shape: 'landscape', offset: 'mid' },
+          { src: '/assets/events/4.jpg', color: 'field-terrace', shape: 'portrait',  offset: 'bot', fit: 'cover' },
+        ]
+      },
+
+      // ── COMPOSITION 2: TRIO — landscape + portrait + portrait ──
+      {
+        type: 'trio',
+        items: [
+          { src: '/assets/events/6.jpg', color: 'field-sage',    shape: 'portrait',  offset: 'bot', fit: 'cover' },
+          { src: '/assets/events/1.png', color: 'field-blush',   shape: 'portrait',  offset: 'bot' },
+          { src: '/assets/events/5.jpg', color: 'field-ink',     shape: 'portrait',  offset: 'mid', fit: 'cover' },
+        ]
+      },
+
+      // ── COMPOSITION 3: DUO — small portrait left, big portrait right ──
+      {
+        type: 'duo',
+        items: [
+          { src: '/assets/events/2.png', color: 'field-violet',  shape: 'portrait',  offset: 'top' },
+          { src: '/assets/events/7.jpg', color: 'field-rust',    shape: 'portrait',  offset: 'bot', fit: 'cover' },
+        ]
+      },
+
+      // ── COMPOSITION 4: QUAD — four images, two sizes ──
+      {
+        type: 'quad',
+        items: [
+          { src: '/assets/events/9.jpg', color: 'field-terrace', shape: 'portrait',  offset: 'bot', fit: 'cover' },
+          { src: '/assets/events/3.png', color: 'field-navy',    shape: 'square',    offset: 'bot' },
+          { src: '/assets/events/10.jpg', color: 'field-sage',   shape: 'square',    offset: 'mid', fit: 'cover' },
+          { src: '/assets/events/1.png', color: 'field-chalk',   shape: 'portrait',  offset: 'top' },
+        ]
+      },
+
+      // ── COMPOSITION 5: TRIO — portrait + landscape + portrait ──
+      {
+        type: 'trio',
+        items: [
+          { src: '/assets/events/2.png', color: 'field-ink',     shape: 'portrait',  offset: 'mid' },
+          { src: '/assets/events/11.jpg', color: 'field-blush',  shape: 'portrait',  offset: 'bot', fit: 'cover' },
+          { src: '/assets/events/3.png', color: 'field-rust',    shape: 'landscape', offset: 'bot' },
+        ]
+      },
+
+      // ── COMPOSITION 6: TRIO — conference portrait + wide group + portrait ──
+      {
+        type: 'trio',
+        items: [
+          { src: '/assets/events/4.jpg', color: 'field-terrace', shape: 'portrait',  offset: 'bot', fit: 'cover' },
+          { src: '/assets/events/3.png', color: 'field-navy',    shape: 'landscape', offset: 'bot' },
+          { src: '/assets/events/8.jpg', color: 'field-sage',    shape: 'portrait',  offset: 'mid', fit: 'cover' },
+        ]
+      },
+
+      // ── COMPOSITION 7: DUO — stage portrait pair ──
+      {
+        type: 'duo',
+        items: [
+          { src: '/assets/events/7.jpg', color: 'field-blush',   shape: 'portrait',  offset: 'top', fit: 'cover' },
+          { src: '/assets/events/2.png', color: 'field-violet',  shape: 'portrait',  offset: 'bot' },
+        ]
+      },
+
+      // ── COMPOSITION 8: QUAD — formal portraits and international settings ──
+      {
+        type: 'quad',
+        items: [
+          { src: '/assets/events/9.jpg',  color: 'field-rust',    shape: 'portrait',  offset: 'bot', fit: 'cover' },
+          { src: '/assets/events/10.jpg', color: 'field-ink',     shape: 'square',    offset: 'top', fit: 'cover' },
+          { src: '/assets/events/3.png',  color: 'field-sage',    shape: 'square',    offset: 'bot' },
+          { src: '/assets/events/6.jpg',  color: 'field-navy',    shape: 'portrait',  offset: 'top', fit: 'cover' },
+        ]
+      },
+    ];
+
+    // Build HTML from compositions
+    let html = '';
+    compositions.forEach((comp) => {
+      html += `<div class="comp-scene comp-${comp.type}">`;
+      comp.items.forEach((item) => {
+        html += `
+          <div class="img-field ${item.color} shape-${item.shape} offset-${item.offset}${item.fit ? ` fit-${item.fit}` : ''}${item.fit ? ` photo-${item.src.split('/').pop().replace('.jpg', '')}` : ''}${item.src.endsWith('/3.png') ? ' asset-speaker' : ''}">
+            <img src="${item.src}" alt="Speaking and Events — Henok Demelash" loading="eager" decoding="async" draggable="false">
+          </div>`;
+      });
+      html += `</div>`;
     });
+    editorialGallery.innerHTML = html;
+
+    // Each composition is a document-flow card. Its transform is calculated
+    // from its viewport position on one shared animation frame per scroll.
+    window.setTimeout(() => {
+      const canvas = document.querySelector('.events-sticky-canvas');
+      if (!canvas) return;
+
+      const scenes = Array.from(editorialGallery.querySelectorAll('.comp-scene'));
+      const canvasH = canvas.offsetHeight;
+      const sceneDistance = canvasH * 0.92;
+      const entryStrength = 0.68;
+      let frameId = 0;
+
+      eventsScroller.style.height = 'auto';
+
+      const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+      const cubicEase = (progress) => progress + (progress ** 3 - progress) * entryStrength;
+      const updateScenes = () => {
+        frameId = 0;
+        const viewportHeight = window.innerHeight;
+
+        scenes.forEach((scene) => {
+          const rect = scene.getBoundingClientRect();
+          const entryDistance = Math.min(rect.height * 0.8, viewportHeight * 0.45) * 0.97;
+          const exitDistance = Math.min(rect.height * 0.32, viewportHeight * 0.18) * 0.5;
+          const entryProgress = clamp((viewportHeight - rect.top + entryDistance) / entryDistance);
+          // Let the card travel naturally; only ease it out once it is nearly
+          // finished leaving through the top of the viewport.
+          const exitProgress = clamp((exitDistance - rect.bottom) / exitDistance);
+          const entryOffset = (1 - cubicEase(entryProgress)) * entryDistance;
+          const exitOffset = cubicEase(exitProgress) * exitDistance;
+
+          scene.style.transform = `translate3d(0, ${entryOffset - exitOffset}px, 0)`;
+        });
+      };
+
+      const requestSceneUpdate = () => {
+        if (!frameId) frameId = requestAnimationFrame(updateScenes);
+      };
+
+      window.addEventListener('scroll', requestSceneUpdate, { passive: true });
+      window.addEventListener('resize', requestSceneUpdate, { passive: true });
+      updateScenes();
+      if (ScrollTrigger) {
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+      }
+    }, 0);
   }
 
   // --- FOOTER REVEAL PARALLAX ---
@@ -508,7 +675,8 @@ document.addEventListener('DOMContentLoaded', () => {
           trigger: footerRevealContainer,
           start: "top bottom", // Starts when the top of the container enters the bottom of the viewport
           end: "bottom bottom", // Ends when the bottom of the container reaches the bottom
-          scrub: true
+            scrub: 0.8,
+            invalidateOnRefresh: true,
         }
       }
     );

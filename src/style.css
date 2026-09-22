@@ -104,6 +104,120 @@ a {
   outline: 2px solid var(--color-accent);
 }
 
+/* Back to main page button (experiences.html) */
+.back-home-btn {
+  position: fixed;
+  top: 1.75rem;
+  left: 2rem;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-home-btn svg {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.back-home-btn:hover {
+  color: var(--color-accent);
+}
+
+.back-home-btn:hover svg {
+  transform: translateX(-4px);
+}
+
+/* --- RECENT NEWS MODAL --- */
+.news-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 21, 31, 0.85);
+  backdrop-filter: blur(12px);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.news-modal-box {
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  background: var(--color-field-mid);
+  border: 1px solid var(--color-hairline);
+  padding: 2rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.news-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-hairline);
+  color: var(--color-light);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.news-close:hover {
+  background: var(--color-accent);
+  color: var(--color-field-deep);
+  border-color: var(--color-accent);
+}
+
+.news-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: -0.5rem;
+}
+
+.news-media {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-field-deep);
+}
+
+.news-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.news-content .news-title {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.news-content .news-desc {
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
 section[id],
 .exp-row[id] {
   scroll-margin-top: 5rem;
@@ -139,19 +253,28 @@ section[id],
   line-height: 0;
 }
 
-.nav-brand-mark {
+.hero-logo {
+  position: absolute;
+  z-index: 5;
+  top: 1.5rem;
+  left: 5%;
+  background-color: var(--color-light);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hero-brand-mark {
   display: block;
-  height: 4.75rem;
+  height: 3rem;
   width: auto;
   max-width: min(14rem, 62vw);
   object-fit: contain;
-  object-view-box: inset(22% 18% 26% 18%);
-  mix-blend-mode: screen;
 }
 
 @media (min-width: 768px) {
-  .nav-brand-mark {
-    height: 5.5rem;
+  .hero-brand-mark {
+    height: 3.5rem;
     max-width: 16rem;
   }
 }
@@ -159,10 +282,11 @@ section[id],
 /* --- SECTION 01: EDITORIAL HERO --- */
 .hero-section {
   position: relative;
+  height: 100svh;
   min-height: 100vh;
   min-height: 100svh;
   overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
   isolation: isolate;
   background: linear-gradient(180deg, #0b1f2e 0%, #07151f 100%);
 }
@@ -315,7 +439,7 @@ section[id],
 
 @media (max-width: 899px) {
   .hero-section {
-    min-height: max(100svh, 49rem);
+    min-height: 100svh;
   }
 
   .hero-quote {
@@ -378,7 +502,7 @@ section[id],
 
 @media (max-width: 420px) {
   .hero-section {
-    min-height: max(100svh, 48rem);
+    min-height: 100svh;
   }
 
   .hero-quote {
@@ -559,7 +683,7 @@ section[id],
   .cap-panel .cap-skills {
     opacity: 0.28;
     transform: translateY(1.1rem);
-    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
   }
 
   .cap-panel.is-active .cap-title,
@@ -1042,7 +1166,7 @@ section[id],
 
 .footer-reveal-container {
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 .final-section {
@@ -1567,197 +1691,260 @@ section[id],
   transform: scale(1.2);
 }
 
-/* --- EVENTS & SPEAKING: EDITORIAL CANVAS --- */
-.events-section {
+/* ═══════════════════════════════════════════════════════
+   EVENTS & SPEAKING — STICKY CANVAS SCROLL
+   ═══════════════════════════════════════════════════════ */
+
+/* Outer tall wrapper — provides the scroll height */
+.events-scroller {
+  /* Height is set dynamically in JS based on number of images */
   position: relative;
   width: 100%;
-  background: #d8d8d8;
-  overflow: hidden;
 }
 
-.events-canvas {
-  position: relative;
-  width: 100%;
-}
-
-/* Sticky centered name — sits behind everything */
-.events-name-anchor {
+/* Sticky inner canvas — stays fixed in viewport while gallery scrolls */
+.events-sticky-canvas {
   position: sticky;
   top: 0;
+  width: 100%;
   height: 100vh;
+  background: #d4d4d4;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Subtle section label top-left */
+.events-bg-label {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(80, 75, 68, 0.55);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Ghost "HENOK / DEMELASH" centered behind images */
+.events-name-anchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 1;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .events-name-line {
   font-family: var(--font-heading);
-  font-size: clamp(5rem, 14vw, 16rem);
+  font-size: clamp(4rem, 12vw, 14rem);
   font-weight: 700;
   line-height: 0.88;
   letter-spacing: -0.045em;
   text-transform: uppercase;
-  color: rgba(180, 175, 168, 0.55);
+  color: rgba(160, 155, 148, 0.35);
   text-align: center;
   margin: 0;
   user-select: none;
 }
 
-/* Image groups — each creates a tall scroll lane */
-.events-group {
+/* Gallery track — cards travel through the sticky canvas in document flow */
+#editorial-gallery-track {
   position: relative;
   width: 100%;
-  min-height: 140vh;
-  z-index: 2;
+  z-index: 5;
 }
 
-/* Floating wrappers — positioned absolutely within groups */
-.floating-img {
-  position: absolute;
+/* The gallery is a stack of viewport-sized cards */
+#editorial-gallery {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vh, 5rem);
+}
+
+/* ── Colored editorial containers ── */
+.img-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: calc(100svh - 12vh);
+  border-radius: 6px;
+  overflow: hidden;
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+/* Image — crisp, no filter, no opacity, preserve PNG transparency */
+.img-field img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.img-field.fit-cover img {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100svh - 12vh);
+  object-fit: contain;
+  border-radius: 14px;
+  clip-path: inset(0 round 14px);
+}
+
+.img-field.fit-cover {
+  max-height: calc(100svh - 12vh);
+  background: transparent;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.img-field.photo-4,
+.img-field.photo-6,
+.img-field.photo-4 img,
+.img-field.photo-6 img {
+  border-radius: 14px;
+}
+
+.img-field.photo-4 { aspect-ratio: 1920 / 2560; }
+.img-field.photo-5 { aspect-ratio: 1920 / 2560; }
+.img-field.photo-6 {
+  aspect-ratio: 1470 / 2560;
+}
+.img-field.photo-7 { aspect-ratio: 2560 / 1920; }
+.img-field.photo-8 { aspect-ratio: 1920 / 2560; }
+.img-field.photo-9 { aspect-ratio: 1800 / 2400; }
+.img-field.photo-10 { aspect-ratio: 864 / 781; }
+.img-field.photo-11 { aspect-ratio: 1695 / 2259; }
+
+.img-field.asset-speaker img {
+  object-position: 50% 100%;
+}
+
+/* ── Color palettes ── */
+.field-navy    { background: #1b2d45; }
+.field-terrace { background: #c4764e; }
+.field-blush   { background: #d9a8b0; }
+.field-ink     { background: #1a1a1a; }
+.field-sage    { background: #7a9b82; }
+.field-chalk   { background: #e8e4dc; }
+.field-violet  { background: #4a3560; }
+.field-rust    { background: #8b4a2f; }
+
+/* ── Shape aspect-ratios ── */
+.shape-landscape { aspect-ratio: 16 / 10; }
+.shape-portrait  { aspect-ratio: 3 / 4;  }
+.shape-square    { aspect-ratio: 1 / 1;  }
+
+/* ── Vertical offsets — editorial stagger ── */
+.offset-top { align-self: flex-start; }
+.offset-mid { align-self: center;     }
+.offset-bot { align-self: flex-end;   }
+
+/* ═══════════════════════════════════
+   COMPOSITION SCENES
+   Each .comp-scene fills the viewport width
+   and holds 2–4 .img-field children.
+   ═══════════════════════════════════ */
+.comp-scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  gap: 1.5%;
+  padding: 6vh 3%;
+  align-items: center;  /* fallback — overridden per-child by offset-* */
+  min-height: 0;
+  overflow: hidden;
+  transition: none;
   will-change: transform;
 }
 
-/* ── EDITORIAL IMAGE FIELD (colored container) ── */
-.img-field {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+/* ── DUO: 2 images — big left (60%), smaller right (38%) ── */
+.comp-duo .img-field:nth-child(1) {
+  flex: 0 0 60%;
+  max-width: 60%;
+}
+.comp-duo .img-field:nth-child(2) {
+  flex: 0 0 38%;
+  max-width: 38%;
 }
 
-.img-field img {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  /* PNG transparency preserved — container color shows through */
+/* ── TRIO: 3 images — landscape left (48%), portrait mid (24%), portrait right (24%) ── */
+.comp-trio .img-field:nth-child(1) {
+  flex: 0 0 48%;
+  max-width: 48%;
+}
+.comp-trio .img-field:nth-child(2) {
+  flex: 0 0 24%;
+  max-width: 24%;
+}
+.comp-trio .img-field:nth-child(3) {
+  flex: 0 0 24%;
+  max-width: 24%;
 }
 
-/* ── CURATED COLOUR PALETTE ── */
-.field-navy     { background: #1a2a3a; }
-.field-warm     { background: #c4856a; }
-.field-blush    { background: #e8b4b8; }
-.field-ink      { background: #1c1c1e; }
-.field-sage     { background: #8a9a7b; }
-.field-chalk    { background: #f0ece4; }
-.field-midnight { background: #0f1926; }
-.field-clay     { background: #b8856c; }
-
-/* ── GROUP 1 — 2 compositions ── */
-.fi-1a {
-  width: clamp(16rem, 34vw, 30rem);
-  left: 7%;
-  top: 8%;
-  z-index: 3;
+/* ── QUAD: 4 images — two wide, two narrower ── */
+.comp-quad .img-field:nth-child(1) {
+  flex: 0 0 28%;
+  max-width: 28%;
 }
-.fi-1a .img-field {
-  aspect-ratio: 3 / 4;
+.comp-quad .img-field:nth-child(2) {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+.comp-quad .img-field:nth-child(3) {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+.comp-quad .img-field:nth-child(4) {
+  flex: 0 0 28%;
+  max-width: 28%;
 }
 
-.fi-1b {
-  width: clamp(18rem, 40vw, 36rem);
-  right: 5%;
-  top: 38%;
-  z-index: 2;
-}
-.fi-1b .img-field {
-  aspect-ratio: 4 / 5;
-}
-
-/* ── GROUP 2 — 3 compositions ── */
-.fi-2a {
-  width: clamp(14rem, 28vw, 24rem);
-  right: 8%;
-  top: 4%;
-  z-index: 2;
-}
-.fi-2a .img-field {
-  aspect-ratio: 3 / 4;
-}
-
-.fi-2b {
-  width: clamp(18rem, 38vw, 34rem);
-  left: 4%;
-  top: 22%;
-  z-index: 3;
-}
-.fi-2b .img-field {
-  aspect-ratio: 4 / 5;
-}
-
-.fi-2c {
-  width: clamp(13rem, 24vw, 20rem);
-  right: 18%;
-  top: 58%;
-  z-index: 4;
-}
-.fi-2c .img-field {
-  aspect-ratio: 3 / 4;
-}
-
-/* ── GROUP 3 — 3 compositions ── */
-.fi-3a {
-  width: clamp(15rem, 30vw, 26rem);
-  left: 10%;
-  top: 6%;
-  z-index: 2;
-}
-.fi-3a .img-field {
-  aspect-ratio: 4 / 5;
-}
-
-.fi-3b {
-  width: clamp(18rem, 38vw, 32rem);
-  right: 6%;
-  top: 28%;
-  z-index: 3;
-}
-.fi-3b .img-field {
-  aspect-ratio: 3 / 4;
-}
-
-.fi-3c {
-  width: clamp(12rem, 22vw, 18rem);
-  left: 28%;
-  top: 62%;
-  z-index: 4;
-}
-.fi-3c .img-field {
-  aspect-ratio: 3 / 4;
-}
-
-/* Mobile: stack vertically */
+/* ── Mobile: stack vertically ── */
 @media (max-width: 768px) {
   .events-name-line {
     font-size: clamp(3rem, 16vw, 6rem);
   }
-  .events-group {
-    min-height: auto;
-    padding: 4rem 0;
-    display: flex;
+  #editorial-gallery {
+    position: relative;
+  }
+  .comp-scene {
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    height: auto;
+    min-height: 100svh;
+    overflow: hidden;
+    gap: 4vw;
+    padding: 8vh 5%;
+    justify-content: center;
   }
-  .floating-img {
-    position: relative !important;
-    width: 75% !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
+  .comp-scene.comp-duo  .img-field,
+  .comp-scene.comp-trio .img-field,
+  .comp-scene.comp-quad .img-field {
+    flex: 0 0 auto;
+    width: 82%;
+    max-width: 82%;
+    max-height: calc(100svh - 16vh);
   }
-  .floating-img:nth-child(even) {
-    align-self: flex-end;
-    margin-right: 8%;
+  .comp-scene .img-field.fit-cover {
+    max-height: none;
   }
-  .floating-img:nth-child(odd) {
-    align-self: flex-start;
-    margin-left: 8%;
+  .offset-top, .offset-mid, .offset-bot {
+    align-self: center;
   }
 }

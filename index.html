@@ -36,17 +36,28 @@
     <div class="preloader">
       <h2 class="preloader-text">Hello</h2>
     </div>
+
+    <div class="news-modal" id="recent-news-modal">
+      <div class="news-modal-box">
+        <button class="news-close" aria-label="Close news">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <span class="news-label">Recent Activity</span>
+        <div class="news-media">
+          <img src="/assets/news/ReLoop.png" alt="ReLoop AI Waste Management">
+        </div>
+        <div class="news-content">
+          <h3 class="news-title">ReLoop</h3>
+          <p class="news-desc">An AI-assisted waste management system.</p>
+        </div>
+      </div>
+    </div>
+
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="minimal-nav">
-      <a class="nav-brand" href="index.html">
-        <img
-          class="nav-brand-mark"
-          src="/assets/brand/henok-demelash-logo.png?v=hd-1"
-          alt="Henok Demelash"
-          width="1024"
-          height="1024"
-        >
+      <a class="nav-brand" href="index.html" aria-label="Home">
+        <!-- Logo moved to hero section -->
       </a>
       <button class="burger-btn" aria-label="Open contact menu" aria-expanded="false">
         <span class="burger-line"></span>
@@ -59,6 +70,9 @@
         <div class="content-above-footer">
         
         <section id="hero" class="hero-section" aria-labelledby="hero-title">
+          <div class="hero-logo gs-reveal">
+            <img src="/assets/brand/henok-demelash-wordmark.png" alt="Henok Demelash" class="hero-brand-mark">
+          </div>
           <blockquote class="hero-quote gs-reveal">
             <span aria-hidden="true">“</span>
             <p>Technology becomes meaningful when it serves people, institutions and a larger purpose.</p>
@@ -109,50 +123,58 @@
 
             <div class="cap-panels">
               <article class="cap-panel is-active" data-cap-index="0">
-                <h3 class="cap-title">Full-Stack Development</h3>
-                <p class="cap-copy">I design and build digital systems that turn complex institutional requirements into reliable, practical applications — from architecture through delivery.</p>
+                <h3 class="cap-title">Digital Solutions</h3>
+                <p class="cap-copy">I design and build digital solutions that turn complex requirements into practical, scalable systems, combining strategy, architecture, development, and delivery.</p>
                 <span class="cap-dot" aria-hidden="true"></span>
                 <ul class="cap-skills">
+                  <li>Full-stack development</li>
+                  <li>Digital platforms &amp; applications</li>
                   <li>System architecture</li>
-                  <li>Frontend &amp; backend</li>
-                  <li>APIs &amp; data</li>
-                  <li>Full-stack delivery</li>
+                  <li>APIs &amp; data systems</li>
+                  <li>UI/UX &amp; product design</li>
+                  <li>End-to-end delivery</li>
                 </ul>
               </article>
 
               <article class="cap-panel" data-cap-index="1">
-                <h3 class="cap-title">UI/UX Design</h3>
-                <p class="cap-copy">I shape interfaces that are clear, considered and usable — visual systems that help people and institutions work with technology rather than around it.</p>
+                <h3 class="cap-title">Technology Policy &amp; Digital Innovation</h3>
+                <p class="cap-copy">I work at the intersection of technology, policy, and innovation, helping institutions translate emerging digital opportunities into meaningful programmes, systems, and outcomes.</p>
                 <span class="cap-dot" aria-hidden="true"></span>
                 <ul class="cap-skills">
-                  <li>Interface design</li>
-                  <li>User experience</li>
-                  <li>Design systems</li>
-                  <li>Interaction</li>
+                  <li>Technology policy</li>
+                  <li>Digital transformation</li>
+                  <li>Innovation strategy</li>
+                  <li>Digital governance</li>
+                  <li>Emerging technologies</li>
+                  <li>Stakeholder engagement</li>
                 </ul>
               </article>
 
               <article class="cap-panel" data-cap-index="2">
-                <h3 class="cap-title">Technology Policy &amp; Digital Innovation</h3>
-                <p class="cap-copy">I work at the intersection of technology, policy and innovation — helping institutions adopt digital approaches that serve people and a larger purpose.</p>
+                <h3 class="cap-title">Youth Leadership &amp; Development</h3>
+                <p class="cap-copy">I use technology, leadership, and community engagement to create opportunities for young people to participate, build capabilities, and contribute to meaningful institutional and social change.</p>
                 <span class="cap-dot" aria-hidden="true"></span>
                 <ul class="cap-skills">
-                  <li>Digital strategy</li>
-                  <li>Policy &amp; governance</li>
-                  <li>Innovation programmes</li>
-                  <li>Stakeholder alignment</li>
+                  <li>Youth leadership</li>
+                  <li>Community &amp; stakeholder engagement</li>
+                  <li>Capacity building</li>
+                  <li>Programme development</li>
+                  <li>Youth innovation</li>
+                  <li>Collaboration &amp; advocacy</li>
                 </ul>
               </article>
 
               <article class="cap-panel" data-cap-index="3">
                 <h3 class="cap-title">Institutional Digital Platforms</h3>
-                <p class="cap-copy">I develop platforms for continental and public institutions — systems meant to last, scale, and serve real operational needs.</p>
+                <p class="cap-copy">I build digital platforms for institutions and public-facing environments, with a focus on usability, sustainability, integration, and long-term value.</p>
                 <span class="cap-dot" aria-hidden="true"></span>
                 <ul class="cap-skills">
-                  <li>Platform architecture</li>
-                  <li>Public-sector systems</li>
-                  <li>Integration</li>
+                  <li>Institutional systems</li>
+                  <li>Public-sector platforms</li>
+                  <li>Workflow digitisation</li>
+                  <li>System integration</li>
                   <li>Product delivery</li>
+                  <li>Scalable architecture</li>
                 </ul>
               </article>
             </div>
@@ -162,7 +184,7 @@
         <section class="principle-section">
           <div class="content-wrapper principle-content">
             <h2 class="principle-title gs-fade-up">BUILDING WHAT<br>COMES NEXT.</h2>
-            <p class="principle-sub gs-fade-up">Technology becomes meaningful when it serves people, institutions and a larger purpose.</p>
+            <p class="principle-sub gs-fade-up">Technology designed to solve, connect and create impact.</p>
           </div>
         </section>
 
@@ -221,7 +243,7 @@
           </div>
           
           <div class="content-wrapper">
-            <div class="exp-collage-cta">
+            <div id="journey-explore" class="exp-collage-cta">
               <a href="experiences.html" class="explore-btn gs-fade-up">
                 <span>EXPLORE JOURNEY</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -254,8 +276,6 @@
                   <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1600" alt="Analytics interface representing ESTI digital systems work" loading="lazy">
                 </div>
                 <div class="work-slide-content">
-                  <p class="work-slide-label">PRIMARY FEATURE</p>
-                  <h3 class="work-slide-title">AFRICAN UNION / ESTI</h3>
                   <p class="work-slide-desc">Digital transformation and system development within the Education, Science, Technology and Innovation Directorate.</p>
                   <p class="work-slide-tech">FULL-STACK ARCHITECTURE</p>
                 </div>
@@ -267,7 +287,7 @@
                   <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=1600" alt="Healthcare technology representing a QR-based screening workflow" loading="lazy">
                 </div>
                 <div class="work-slide-content">
-                  <h3 class="work-slide-title">AU QR-BASED MENTAL HEALTH SCREENING PLATFORM</h3>
+                  <h3 class="work-slide-title">QR-BASED MENTAL HEALTH SCREENING PLATFORM</h3>
                   <p class="work-slide-desc">A full-stack application providing instant risk assessments and integrating professional resources via physical QR endpoints.</p>
                   <p class="work-slide-tech">REACT · NODE.JS · MONGODB</p>
                 </div>
@@ -295,67 +315,22 @@
           </div>
         </section>
 
-        <section id="events" class="events-section">
-          <div class="events-canvas">
-            <!-- Sticky centered typography -->
+        <!-- Events scroller: outer wrapper creates scroll height; inner canvas is sticky/fixed -->
+        <div class="events-scroller" id="events-scroller">
+          <div class="events-sticky-canvas" id="events">
+            <!-- Background label -->
+            <div class="events-bg-label">SPEAKING &amp; EVENTS</div>
+            <!-- Centered ghost typography -->
             <div class="events-name-anchor">
               <h2 class="events-name-line" aria-hidden="true">HENOK</h2>
               <h2 class="events-name-line" aria-hidden="true">DEMELASH</h2>
             </div>
-
-            <!-- Group 1: 2 compositions -->
-            <div class="events-group" data-group="0">
-              <div class="floating-img fi-1a">
-                <div class="img-field field-navy">
-                  <img src="/assets/events/1.png" alt="Henok Demelash speaking at event" loading="lazy">
-                </div>
-              </div>
-              <div class="floating-img fi-1b">
-                <div class="img-field field-warm">
-                  <img src="/assets/events/2.png" alt="Henok Demelash at conference" loading="lazy">
-                </div>
-              </div>
-            </div>
-
-            <!-- Group 2: 3 compositions -->
-            <div class="events-group" data-group="1">
-              <div class="floating-img fi-2a">
-                <div class="img-field field-blush">
-                  <img src="/assets/events/3.png" alt="Henok Demelash presenting" loading="lazy">
-                </div>
-              </div>
-              <div class="floating-img fi-2b">
-                <div class="img-field field-ink">
-                  <img src="/assets/events/1.png" alt="Henok Demelash on stage" loading="lazy">
-                </div>
-              </div>
-              <div class="floating-img fi-2c">
-                <div class="img-field field-sage">
-                  <img src="/assets/events/2.png" alt="Henok Demelash keynote" loading="lazy">
-                </div>
-              </div>
-            </div>
-
-            <!-- Group 3: 3 compositions -->
-            <div class="events-group" data-group="2">
-              <div class="floating-img fi-3a">
-                <div class="img-field field-chalk">
-                  <img src="/assets/events/2.png" alt="Henok Demelash at panel" loading="lazy">
-                </div>
-              </div>
-              <div class="floating-img fi-3b">
-                <div class="img-field field-midnight">
-                  <img src="/assets/events/3.png" alt="Henok Demelash speaking" loading="lazy">
-                </div>
-              </div>
-              <div class="floating-img fi-3c">
-                <div class="img-field field-clay">
-                  <img src="/assets/events/1.png" alt="Henok Demelash event" loading="lazy">
-                </div>
-              </div>
-            </div>
           </div>
-        </section>
+          <!-- Gallery cards move through the viewport while the canvas stays sticky -->
+          <div id="editorial-gallery-track">
+            <div id="editorial-gallery"></div>
+          </div>
+        </div>
 
         <section id="leadership" class="leadership-statement-section">
           <div class="content-wrapper">
@@ -376,7 +351,6 @@
               </div>
             </div>
 
-            <a href="experiences.html" class="explore-link gs-fade-up">EXPLORE LEADERSHIP &rarr;</a>
           </div>
         </section>
 
